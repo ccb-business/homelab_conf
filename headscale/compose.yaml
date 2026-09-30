@@ -1,0 +1,20 @@
+services:
+  headscale:
+    image: headscale/headscale:v0.29.3
+    container_name: headscale
+    restart: unless-stopped
+    command: serve
+    volumes:
+      - ./config:/etc/headscale
+      - ./data:/var/lib/headscale
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.headscale.rule=Host(`vpn.home.eluusive.com`)
+      - traefik.http.routers.headscale.entrypoints=websecure
+      - traefik.http.services.headscale.loadbalancer.server.port=8080
+
+networks:
+  proxy:
+    external: true

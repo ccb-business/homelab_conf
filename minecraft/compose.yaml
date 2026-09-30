@@ -8,10 +8,18 @@ services:
     environment:
       EULA: "TRUE"
       TYPE: "PAPER"         
-      VERSION: "26.3"    
+      VERSION: "1.21.1"    
       MEMORY: "6G"
     volumes:
       - ./data:/data
     mem_limit: 5g
     stdin_open: true
     tty: true
+
+    networks:
+      gameservers:
+        ipv4_address: 10.10.10.10 #static per service onboarded
+
+networks:
+  gameservers:
+    external: true

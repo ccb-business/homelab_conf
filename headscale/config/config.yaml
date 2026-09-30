@@ -1,0 +1,59 @@
+server_url: https://vpn.home.eluusive.com
+
+listen_addr: 0.0.0.0:8080
+metrics_listen_addr: 127.0.0.1:9090
+
+grpc_listen_addr: 0.0.0.0:50443
+grpc_allow_insecure: false
+
+database:
+  type: sqlite
+  sqlite:
+    path: /var/lib/headscale/db.sqlite
+
+log:
+  level: info
+
+prefixes:
+  v4: 100.64.0.0/10
+  v6: fd7a:115c:a1e0::/48
+
+dns:
+  magic_dns: true
+  base_domain: tailnet.home.eluusive.com
+  nameservers:
+    global:
+      - 1.1.1.1
+      - 1.0.0.1
+
+# OIDC — fill in after creating the Keycloak client
+oidc:
+  only_start_if_ready: true
+  issuer: "https://auth.home.eluusive.com/realms/homelab"
+  client_id: "headscale"
+  client_secret: "DqjgJ6MYVpE2sfYMAZ76YXRLhj2N5Dn2"
+  scope: ["openid", "profile", "email", "groups"]
+  extra_params:
+    domain_hint: "homelab"
+
+  # Require a real group claim rather than trusting any Keycloak login
+  allowed_groups:
+    - "/admins"
+    - "/players"
+
+noise:
+  private_key_path: /var/lib/headscale/noise_private.key
+
+derp:
+  server:
+    enabled: true
+    region_id: 999
+    region_code: "homelab"
+    region_name: "Homelab Embedded DERP"
+    stun_listen_addr: "0.0.0.0:3478"
+    private_key_path: /var/lib/headscale/derp_server_private.key
+
+  urls: []
+  paths: []
+  auto_update_enabled: true
+  update_frequency: 24h

@@ -1,0 +1,29 @@
+services:
+  grafana:
+    image: grafana/grafana:11.3.0
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      GF_SERVER_ROOT_URL: https://grafana.home.eluusive.com
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+      GF_AUTH_GENERIC_OAUTH_NAME: Keycloak
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: ${GRAFANA_OIDC_SECRET}
+      GF_AUTH_GENERIC_OAUTH_SCOPES: openid email profile
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.home.eluusive.com/realms/homelab/protocol/openid-connect/auth
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://auth.home.eluusive.com/realms/homelab/protocol/openid-connect/token
+      GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.home.eluusive.com/realms/homelab/protocol/openid-connect/userinfo
+      GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: "true"
+    volumes:
+      - ./data:/var/lib/grafana
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`grafana.home.eluusive.com`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.services.grafana.loadbalancer.server.port=3000
+
+networks:
+  proxy:
+    external: true

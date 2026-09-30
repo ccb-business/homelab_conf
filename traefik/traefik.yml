@@ -1,0 +1,32 @@
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: letsencrypt
+log:
+  level: DEBUG
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: proxy
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: cmbilotta@proton.me
+      storage: /acme/acme.json
+        # Uncomment while testing to avoid Let's Encrypt rate limits:
+        #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"

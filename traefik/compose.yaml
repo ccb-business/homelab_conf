@@ -1,0 +1,24 @@
+services:
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./data/acme:/acme
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
+
+command:
+  - "--api.dashboard=true"
+  - "--api.insecure=true"   # fine for LAN-only access; don't expose this publicly
