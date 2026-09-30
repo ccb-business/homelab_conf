@@ -21,4 +21,4 @@ networks:
 
 command:
   - "--api.dashboard=true"
-  - "--api.insecure=true"   # fine for LAN-only access; don't expose this publicly
+  - "--api.insecure=true"   
