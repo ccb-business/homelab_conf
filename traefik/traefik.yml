@@ -24,9 +24,12 @@ certificatesResolvers:
     acme:
       email: cmbilotta@proton.me
       storage: /acme/acme.json
-        # Uncomment while testing to avoid Let's Encrypt rate limits:
         #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
       dnsChallenge:
         provider: cloudflare
         resolvers:
           - "1.1.1.1:53"
+
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: json

@@ -12,13 +12,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
       - ./data/acme:/acme
+      - ./logs:/var/log/traefik
     networks:
       - proxy
-
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
 networks:
   proxy:
     name: proxy
 
-command:
-  - "--api.dashboard=true"
-  - "--api.insecure=true"   

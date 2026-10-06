@@ -29,6 +29,10 @@ services:
       KC_HOSTNAME: auth.home.eluusive.com
       KC_PROXY_HEADERS: xforwarded
       KC_HTTP_ENABLED: "true"
+      KC_LOG: console,file
+      KC_LOG_FILE_OUTPUT: json
+    volumes:
+      - ./logs:/opt/keycloak/data/log
     networks:
       - keycloak-internal
       - proxy

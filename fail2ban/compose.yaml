@@ -1,0 +1,21 @@
+services:
+  fail2ban:
+    image: crazymax/fail2ban:latest
+    container_name: fail2ban
+    restart: unless-stopped
+    network_mode: host          
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      TZ: America/Chicago
+      F2B_LOG_TARGET: /var/log/fail2ban.log
+      F2B_LOG_LEVEL: INFO
+      F2B_DB_PURGE_AGE: 7d
+    volumes:
+      - ./config:/data                   
+      - ./jail.d:/data/jail.d:ro
+      - ./filter.d:/data/filter.d:ro
+      - /var/log/auth.log:/var/log/auth.log:ro  
+      - ~/homelab/traefik/logs:/var/log/traefik:ro
+      - ~/homelab/keycloak/logs:/var/log/keycloak:ro
