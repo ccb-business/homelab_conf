@@ -95,9 +95,9 @@ This one took the longest time to figure out. I was initially having problems wi
 
 ## Planned next steps
 
-- [ ] Need to look into CrowdSec or fail2ban for more security once I open up the auth flow to the internet.
-- [ ] Have to make an easy, user friendly installation guide for Tailscale and Keycloak logins since my friends aren't all tech savvy.
-- [ ] Automate Keycloak user addition via Keycloack's REST API
+- [x] Need to look into CrowdSec or fail2ban for more security once I open up the auth flow to the internet.
+- [x] Have to make an easy, user friendly installation guide for Tailscale and Keycloak logins since my friends aren't all tech savvy.
+- [x] Automate Keycloak user addition via Keycloack's REST API
 - [ ] I want to figure out the Headscale ACL policy mapping Keycloak groups (`admins`, `players`) to the subnet.
 - [ ] Introduce Terraform to manage Keycloak realm/clients/groups/mappers 
 
